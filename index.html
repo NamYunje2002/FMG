@@ -67,8 +67,36 @@
     </div>
     <div class="wrapper">
         <div class="search">
-            <input type="text" id="address">
-            <input type="button" id="submit" value="위치 검색">
+            <table id="address_table">
+            <tr id="search_bar">
+                <td><input type="text" id="address_input"></td>
+                <td><input type="button" id="submit" value="위치 검색"></td>
+            </tr>
+            <tr id="user1">
+                <td>1️⃣</td>
+                <td id="user1_address"></td>
+            </tr>
+            <tr id="user2">
+                <td>2️⃣</td>
+                <td id="user1_address"></td>
+            </tr>
+            <tr id="user3" class="hide">
+                <td>3️⃣</td>
+                <td id="user1_address"></td>
+            </tr>
+            <tr id="user4" class="hide">
+                <td>4️⃣</td>
+                <td id="user1_address"></td>
+            </tr>
+            <tr id="user5" class="hide">
+                <td>5️⃣</td>
+                <td id="user1_address"></td>
+            </tr>
+            <tr id="user6" class="hide">
+                <td>6️⃣</td>
+                <td id="user1_address"></td>
+            </tr>   
+            </table>
         </div>
         <div id="map"></div>
     </div>
@@ -79,6 +107,12 @@
         function updateCount() {
             document.getElementById('user_count').textContent = userCount;
             toggleArrows();
+
+            const table = document.getElementById('address_table');
+            for(let i = 0; i <= table.rows.length; i++) {
+                if(i > userCount) table.rows[i].classList.add('hide');
+                else table.rows[i].classList.remove('hide');
+            }
         }
 
         function decreaseNumber() {
@@ -98,7 +132,6 @@
         function toggleArrows() {
             const leftArrow = document.getElementById('user_minus');
             const rightArrow = document.getElementById('user_plus');
-
             if (userCount <= 2) {
                 leftArrow.classList.add('hide');
             } else {
@@ -110,6 +143,13 @@
             } else {
                 rightArrow.classList.remove('hide');
             }
+        }
+
+        function saveAddress(num, address) {
+            let userAddress = document.getElementById('user'+num+'_address');
+            // for(let i = 0; i < userAddress.length; i++){
+            //     console.log(i);
+            // }
         }
     </script>
     <script src="./map.js"></script>
