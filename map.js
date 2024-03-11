@@ -1,11 +1,3 @@
-// mapOptions 변수 제거
-
-// var map = new naver.maps.Map("map", {
-//     center: new naver.maps.LatLng(37.3595316, 127.1052133),
-//     zoom: 15,
-//     mapTypeControl: true
-// });
-
 var marker = new naver.maps.Marker({
     position: new naver.maps.LatLng(37.50180355734507, 126.98714909796672),
     map: map
@@ -13,7 +5,7 @@ var marker = new naver.maps.Marker({
 
 var map = new naver.maps.Map("map", {
     center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 10
+    zoom: 15
 });
 
 var infoWindow = new naver.maps.InfoWindow({
@@ -41,16 +33,28 @@ function searchCoordinateToAddress(latlng) {
             htmlAddresses = [];
 
         for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
-            item = items[i];
+            item = items[i];    
             address = makeAddress(item) || '';
             addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
-
             htmlAddresses.push((i + 1) + '. ' + addrType + ' ' + address);
         }
 
+        let totalUserArr = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'];
+        let userCount = document.getElementById('user_count').textContent;
+        let infoWindowUserArr = document.createElement('div');
+        let userArr = "<ol>";
+        for(let i = 0; i < userCount; i++) {
+            let userAddress = "";
+            userArr += "<ul style=\"cursor: pointer\" id=\"user"+(i+1)+"_button\" onclick=\"saveAddress("+(i+1)+")\">" + totalUserArr[i] + "</ul>";
+        }
+        userArr += "</ol>";
+        infoWindowUserArr.innerHTML = userArr;
+        console.log(htmlAddresses);
         infoWindow.setContent([
             '<div style="padding:10px;min-width:200px;line-height:150%;">',
-            '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+            '<h4>검색 좌표</h4>',   
+            infoWindowUserArr.innerHTML,
+            '<br />',
             htmlAddresses.join('<br />'),
             '</div>'
         ].join('\n'));
@@ -93,7 +97,7 @@ function searchAddressToCoordinate(address) {
             htmlAddresses.join('<br />'),
             '</div>'
         ].join('\n'));
-
+        
         map.setCenter(point);
         infoWindow.open(map, point);
     });
@@ -104,7 +108,7 @@ function initGeocoder() {
         searchCoordinateToAddress(e.coord);
     });
 
-    let address = document.getElementById('address');
+    let address = document.getElementById('address_input');
     address.addEventListener('keydown', function(e) {
         var keyCode = e.which;
 
