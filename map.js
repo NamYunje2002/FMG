@@ -1,3 +1,5 @@
+let markerList = [];
+
 var map = new naver.maps.Map("map", {
     center: new naver.maps.LatLng(37.3595704, 127.105399),
     zoom: 15
@@ -7,26 +9,20 @@ var infoWindow = new naver.maps.InfoWindow({
     anchorSkew: true
 });
 
-let markerList = [];
-
 function getUserCount() {
     return document.getElementById('user_count').textContent;
 }
 
-function saveAddress(num, latlng) {
+function deleteMarker() {
     let userCount = getUserCount();
+    for(let i = userCount; i < 6; i++) markerList[i] = undefined;
+    for(let i = 0; i < 6; i++) console.log(markerList[i]);
+}
+
+function saveAddress(num, latlng) {
     let userAddress = document.getElementById('user'+num+'_address');
     let address = document.getElementById('address_div').innerText;
     userAddress.innerText = address;
-
-    // let marker = new naver.maps.Marker({
-    //     position: latlng,
-    //     map: map
-    // });
-
-    for(let i = 0; i < userCount; i++)
-        if(markerList[i] !== undefined)
-            console.log(markerList[i].getPosition());
 
     if(markerList[num-1] === undefined) {
         markerList[num-1] = new naver.maps.Marker({
@@ -88,25 +84,6 @@ function searchCoordinateToAddress(latlng) {
             htmlAddresses.join('\n')
         ].join('\n'));
         infoWindowContainer.appendChild(infoWindowAddress);
-
-        /* made with list */
-        //let totalUserArr = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'];
-        // let userArr = "<ol>";
-        // for(let i = 0; i < userCount; i++) {
-        //     userArr += "<ul style=\"cursor: pointer\" id=\"user"+(i+1)+"_button\" onclick=\"saveAddress("+(i+1)+", "+latlng+")\">" + totalUserArr[i] + "</ul>";
-        // }
-        // userArr += "</ol>";
-        // infoWindowUserArr.innerHTML = userArr;
-        // infoWindow.setContent([
-        //     '<div style="padding:10px;min-width:200px;line-height:150%;">',
-        //     '<h4>검색 좌표</h4>',   
-        //     infoWindowUserBtnContainer.innerHTML,
-        //     '<br />',
-        //     '<div id="address_div">',
-        //     htmlAddresses.join('<br />'),
-        //     '</div>',
-        //     '</div>'
-        // ].join('\n'));
         infoWindow.setContent(infoWindowContainer);
         infoWindow.open(map, latlng);
     });
@@ -154,7 +131,6 @@ function searchAddressToCoordinate(address) {
 
 function initGeocoder() {
     map.addListener('click', function(e) {
-        console.log('e.coord : ' + e.coord);
         searchCoordinateToAddress(e.coord);
     });
 
@@ -167,8 +143,8 @@ function initGeocoder() {
         }
     });
 
-    let submit = document.getElementById('search_address');
-    submit.addEventListener('submit', function(e) {
+    let searchAddressBtn = document.getElementById('search_address');
+    searchAddressBtn.addEventListener('submit', function(e) {
         e.preventDefault();
         searchAddressToCoordinate(address.value);
     });
