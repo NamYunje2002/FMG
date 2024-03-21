@@ -15,6 +15,12 @@
             font-weight: 400;
             font-style: normal;
         }       
+        table {
+            border: 2px solid rgb(140 140 140);
+        }
+        tr, td{
+            border: 2px solid rgb(140 140 140);   
+        }
         .wrapper {
             margin: 0 auto;
             display: flex; 
@@ -67,10 +73,10 @@
     </div>
     <div class="wrapper">
         <div class="search">
-            <table id="address_table">
+            <table id="address_table" style="border: 2px solid rgb(140 140 140);">
             <tr id="search_bar">
                 <td><input type="text" id="address_input"></td>
-                <td><input type="button" id="submit" value="위치 검색"></td>
+                <td><input type="button" id="search_address" value="위치 검색"></td>
             </tr>
             <tr id="user1">
                 <td>1️⃣</td>
@@ -78,24 +84,27 @@
             </tr>
             <tr id="user2">
                 <td>2️⃣</td>
-                <td id="user1_address"></td>
+                <td id="user2_address"></td>
             </tr>
             <tr id="user3" class="hide">
                 <td>3️⃣</td>
-                <td id="user1_address"></td>
+                <td id="user3_address"></td>
             </tr>
             <tr id="user4" class="hide">
                 <td>4️⃣</td>
-                <td id="user1_address"></td>
+                <td id="user4_address"></td>
             </tr>
             <tr id="user5" class="hide">
                 <td>5️⃣</td>
-                <td id="user1_address"></td>
+                <td id="user5_address"></td>
             </tr>
             <tr id="user6" class="hide">
                 <td>6️⃣</td>
-                <td id="user1_address"></td>
+                <td id="user6_address"></td>
             </tr>   
+            <tr >
+                <td><input type="button" value="완료" id="submit" ></td>
+            </tr>
             </table>
         </div>
         <div id="map"></div>
@@ -119,6 +128,7 @@
             if (userCount > 1) {
                 userCount--;
                 updateCount();
+                deleteMarker();
             }
         }
 
@@ -144,14 +154,8 @@
                 rightArrow.classList.remove('hide');
             }
         }
-
-        function saveAddress(num, address) {
-            let userAddress = document.getElementById('user'+num+'_address');
-            // for(let i = 0; i < userAddress.length; i++){
-            //     console.log(i);
-            // }
-        }
     </script>
     <script src="./map.js"></script>
+    <script src="./calculate.js"></script>
 </body>
 </html>
