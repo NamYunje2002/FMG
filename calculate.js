@@ -1,11 +1,14 @@
 let submit = document.getElementById('submit');
 
 submit.addEventListener('click', () => {
-    calculate();
+    getTravelTime();
 });
 
 function getTravelTime() {
-    
+    let link = 'https://map.naver.com/p/directions/14144941.7038458,4517431.0588932/14146949.5228015,4516588.3496246/-/transit?c=15.00,0,0,0,dh'
+    location.href=link;
+    location.replace(link);
+    window.open(link);
 }
 
 /* 유저 마커를 기준으로 반지름이 radius인 원 그리기(마커로 표시) */
